@@ -28,7 +28,8 @@ owid2021 = owid2021[!grepl("^OWID", owid2021$iso_code), ]
 owid2020 = owid2020[!grepl("^OWID", owid2020$iso_code), ]
 owidall$location=as.factor(owidall$location)
 
-# Subset by country/region: United States, EU, Asia
+# Subset by country/region: Taiwan, United States, EU, Asia
+owidtw = subset(owidall, location=="Taiwan")
 owidus = subset(owidall, location=="United States")
 owideu = subset(owidall, continent=="Europe")
 owidasia = subset(owidall, continent=="Asia")
@@ -37,7 +38,7 @@ owidasia = subset(owidall, continent=="Asia")
 owidtoday = subset(vroom("https://github.com/owid/covid-19-data/blob/master/public/data/owid-covid-data.csv?raw=true"), date == Sys.Date())
 
 
-owidUStoday = subset(owid2022, location == "United States" & date >="2022-09-29")
+owidtwtoday = subset(owid2022, location == "Taiwan" & date >="2022-10-12")
 options(scipen=999) # Disable scientific notation
 par(family = "Palatino")
 format(owideu$new_cases, big.mark = ",", scientific = FALSE)
