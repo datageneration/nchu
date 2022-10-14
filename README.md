@@ -1,1 +1,1 @@
-# nchu-
+# NCHU short courses
