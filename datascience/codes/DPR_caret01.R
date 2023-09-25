@@ -1,8 +1,10 @@
 # Data Programming with R
-# install.packages(c('tidyverse','vroom','data.table' ,'caret', 'RANN', 'randomForest', 'gbm', 'xgboost', 'caretEnsemble', 'C50', 'earth', 'tictoc'))
-ptbu=c('descr','tidyverse','vroom','data.table' ,'caret', 'RANN', 'randomForest', 'gbm', 'xgboost', 'caretEnsemble', 'C50', 'earth', 'tictoc')
-install.packages(ptbu)
-lapply(ptbu, require, character.only = TRUE)
+# Run Machine Learning models with caret
+
+Installed <- TRUE  # For checking if package is installed
+toInstall <- c('tidyverse','vroom','data.table' ,'caret', 'RANN', 'randomForest', 'gbm', 'xgboost', 'caretEnsemble', 'C50', 'earth', 'tictoc')
+if(Installed){install.packages(toInstall, repos = "http://cran.us.r-project.org")}
+lapply(toInstall, require, character.only = TRUE) # call into library
 
 # Import dataset: let different packages race
 library(tidyverse)
@@ -161,3 +163,4 @@ head(predicted)
 
 # Compute the confusion matrix
 confusionMatrix(reference = as.factor(testTEDS$votetsai), data = predicted, mode='everything', positive='Yes')
+
