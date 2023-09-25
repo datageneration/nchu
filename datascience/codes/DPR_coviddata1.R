@@ -1,17 +1,14 @@
 # Data Programming with R
-# install.packages(c("vroom", "finalfit", "tidyverse", "descr", "RColorBrewer", "scales"))
-# lapply(c("vroom", "finalfit", "tidyverse", "descr", "RColorBrewer", "scales"), require, character.only = TRUE)
-library(vroom) # Fast reading in data
-library(finalfit) #for checking missingness and output visualization
-library(tidyverse)
-library(descr)
-library(RColorBrewer)
-library(scales)
+# Collecting COVID data from Our World in Data (OWID, https://ourworldindata.org)
+
+Installed <- TRUE  # For checking if package is installed
+toInstall <- c("vroom", "finalfit", "tidyverse", "descr", "RColorBrewer", "scales")
+if(Installed){install.packages(toInstall, repos = "http://cran.us.r-project.org")}
+lapply(toInstall, require, character.only = TRUE) # call into library
 
 # Reading all real time data
 # vroom is the champion in reading github date, < 3 sec.
 owidall = vroom("https://github.com/owid/covid-19-data/blob/master/public/data/owid-covid-data.csv?raw=true")
-as.factor(owidall[,1:3])
 
 # Subset by year
 
@@ -38,7 +35,7 @@ owidasia = subset(owidall, continent=="Asia")
 owidtoday = subset(vroom("https://github.com/owid/covid-19-data/blob/master/public/data/owid-covid-data.csv?raw=true"), date == Sys.Date())
 
 
-owidtwtoday = subset(owid2022, location == "Taiwan" & date >="2022-10-12")
+owidtwtoday = subset(owid2022, location == "Taiwan" & date >="2023-09-25")
 options(scipen=999) # Disable scientific notation
 par(family = "Palatino")
 format(owideu$new_cases, big.mark = ",", scientific = FALSE)
@@ -48,7 +45,7 @@ y = owideu$new_deaths
 x = as.Date(owideu$date)
 plot(x,y, pch=20, col="#E7298A", cex = .5, xaxt='n', xlab = "Date", ylab = "COVID Deaths in Europe (Daily)")
 axis(1, x, format(x, "%Y-%m"), cex.axis = .7, las = 3 , gap.axis =1.5, tick = FALSE)
-identify(x,y,owideu$location, ps=8, atpen=TRUE)
+identify(x,y,owideu$location, ps=8, atpen=TRUE) # Manually identify cases by mouse click
 
 # Asia data
 y = owidasia$new_deaths
@@ -59,13 +56,7 @@ identify(x,y,owidasia$location, ps=8, atpen=TRUE)
 
 # Format date
 owidall$date<-as.Date(owidall$date,format="%Y-%m-%d")
-# World: new cases
 
-plot(owidall$date,owidall$new_cases, pch = 20, cex = .3, xaxt='n')
-points(owidtw2022$date,owidtw2022$total_tests, pch = 20, cex = .5, xaxt='n', col = "firebrick")
-axis(1, owidall$date, format(owidall$date, "%Y-%m-%d"), cex.axis = .3, las = 3 )
-
-freq(owidall$continent)
 
 options(scipen=999) # No sci notation
 

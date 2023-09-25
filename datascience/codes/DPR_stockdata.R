@@ -1,15 +1,14 @@
 # Data Programming with R
 # Collecting Stock data and plotting stock data as time series
-install.packages("googlesheet4")
-lapply(c("quantmod", "ggplot2", "magrittr","broom"), require, character.only = TRUE)
-library(quantmod)
-library(ggplot2)
-library(magrittr)
-library(broom)
+
+Installed <- TRUE  # For checking if package is installed
+toInstall <- c("quantmod", "ggplot2", "magrittr","broom")
+if(Installed){install.packages(toInstall, repos = "http://cran.us.r-project.org")}
+lapply(toInstall, require, character.only = TRUE) # call into library
 
 # Setting time period
 start = as.Date("2010-07-01") 
-end = as.Date("2022-10-12")
+end = as.Date("2023-09-25")
 quantmod::getSymbols("AAPL")
 getSymbols("AAPL") # Get stock data of Apple
 # Get data from tiingo instead of yahoo (optional)
@@ -20,7 +19,6 @@ getSymbols("^DJI", src="yahoo") # Dow Jones Industrial Average
 
 # Download Taiwan Weighted Index
 getSymbols("^TWII", src="yahoo") # TWSE:IND
-
 
 # Simple plot
 plot(TWII, col="darkblue")
@@ -56,21 +54,20 @@ index(stocks) = as.Date(index(stocks))
 # Plot
 stocks_series = tidy(stocks) %>% 
   ggplot(aes(x=index,y=value, color=series)) + 
-  geom_line(cex=.25) +
+  geom_line(linewidth=.5) +
   theme_bw()
 stocks_series
 
 # Plot TWII
 TWII_series = tidy(TWII$TWII.Adjusted) %>% 
   ggplot(aes(x=index,y=value, color=series)) + 
-  geom_line(cex=1) +
+  geom_line(linewidth=.5) +
   theme_bw()
 TWII_series
 
-
 stocks_series = tidy(stocks) %>% 
   ggplot(aes(x=index,y=value, color=series)) + 
-  geom_line(cex=.25) +
+  geom_line(linewidth=.5) +
   theme_bw() +
   labs(title = "Daily Stock Prices, 7/1/2010 - 09/30/2022",
      subtitle = "End of Day Adjusted Prices",
